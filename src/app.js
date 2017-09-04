@@ -4,15 +4,17 @@ var numbers = [1,3,6,3,20];
 // var source = Observable.from(numbers);
 
 var source = Observable.create(observer => {
-    observer.next(1);
-    observer.next(2);
-    observer.next(4);
+    var index = 0;
 
-    // observer.error("Some error :(");
+    (function produceValue() {
+        observer.next(numbers[index++]);
 
-    observer.next(6);
-
-    observer.complete();
+        if (index < numbers.length) {
+            setTimeout(produceValue, 500);
+        } else {
+            observer.complete();
+        }
+    })();
 });
 
 source.subscribe(
