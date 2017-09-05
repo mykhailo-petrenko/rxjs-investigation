@@ -10,12 +10,14 @@ var source = Observable.create(observer => {
         observer.next(numbers[index++]);
 
         if (index < numbers.length) {
-            setTimeout(produceValue, 500);
+            setTimeout(produceValue, 100);
         } else {
             observer.complete();
         }
     })();
-});
+})
+.map(value => value * -1)
+.filter(value => value%2===0);
 
 source.subscribe(
     value => console.log('value', value),
@@ -37,4 +39,4 @@ class MyObserver {
     }
 }
 
-source.subscribe(new MyObserver);
+// source.subscribe(new MyObserver);
