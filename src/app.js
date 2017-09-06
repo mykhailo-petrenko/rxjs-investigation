@@ -1,10 +1,9 @@
 import { Observable } from 'rxjs';
 
-import {source, onNext} from './archive/observableFromEvent';
+import {source} from './archive/dealingWithErrors';
 
 source.subscribe(
-    onNext,
-    // value => console.log('value', value),
+    value => console.log(value),
     e => console.error(e),
     () => console.log('COMPLETE')
 );
