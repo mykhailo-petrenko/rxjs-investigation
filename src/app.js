@@ -4,13 +4,19 @@ import { Observable } from 'rxjs';
 import {source, render} from './archive/flatMap';
 
 const placeholder = document.getElementById('requestResult');
+const renderer = (data) => render(placeholder, data);
 
-source
-    .subscribe(
-        data => {
-            render(placeholder, data);
-            console.log('data', data);
-        },
-        error => console.log('ERR', error),
-        () => console.log("COMPLETE")
-    );
+var published = source.share();
+
+published.subscribe(
+    renderer,
+    error => console.log('ERR', error),
+    () => console.log("COMPLETE")
+);
+published.subscribe(
+    (data) => console.log('IMPUBLICHED', data),
+    error => console.log('ERR', error),
+    () => console.log("COMPLETE")
+);
+
+// published.connect();
